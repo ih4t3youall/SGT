@@ -8,29 +8,13 @@
   <name>sgt Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>4.2.1.RELEASE</spring.version>
+        <springSecurity.version>4.0.2.RELEASE</springSecurity.version>
     </properties>
  
     <dependencies>
  
  
- <!-- Jackson JSON Mapper -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.7.1</version>
-        </dependency>
-        
-        <dependency>
-    <groupId>org.codehaus.jackson</groupId>
-    <artifactId>jackson-jaxrs</artifactId>
-    <version>1.9.2</version>
-  </dependency>
-  
-
-  
-        
-        
  
  
         <!-- Spring 3 -->
@@ -56,23 +40,23 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <version>${spring.version}</version>
+            <version>${springSecurity.version}</version>
         </dependency>
  
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>${spring.version}</version>
+            <version>${springSecurity.version}</version>
         </dependency>
  
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>${spring.version}</version>
+            <version>${springSecurity.version}</version>
         </dependency>
+<!-- fin spring  -->
 
-
-<!--  Spring 3 dependencies -->
+<!--  Javax -->
 
   <dependency>
         <groupId>javax.servlet</groupId>
