@@ -24,7 +24,9 @@ public class PruebaController {
 
          
         Persona person = new Persona();
-        person.setName("Pankaj"); person.setConuntry("India");
+        person.setName("Pankaj");
+        person.setConuntry("India");
+        person.setId(1);
          
         personaDAO.save(person);
          

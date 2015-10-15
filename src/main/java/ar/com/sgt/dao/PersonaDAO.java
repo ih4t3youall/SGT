@@ -30,7 +30,7 @@ public class PersonaDAO {
 	    
 	    public List<Persona> list() {
 	        Session session = this.sessionFactory.openSession();
-	        List<Persona> personList = session.createQuery("from persona").list();
+	        List<Persona> personList = session.createQuery("select p  from "+Persona.class.getName()+" p").list();
 	        session.close();
 	        return personList;
 	    }

@@ -2,21 +2,21 @@ package ar.com.sgt.dominio;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "persona")
 public class Persona {
+	
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
-
+	
+	@Column(name="nombre")
 	private String name;
-
+	
+	@Column(name="pais")
 	private String conuntry;
 
 	public int getId() {

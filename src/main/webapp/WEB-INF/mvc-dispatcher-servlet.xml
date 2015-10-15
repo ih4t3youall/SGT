@@ -28,28 +28,49 @@
 </bean>
 
 
-     
-    <bean id="hibernate3AnnotatedSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" >
-        <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan">
-            <list>
-                <value>ar.com.sgt.dominio.*</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-<!--                 <prop key="hibernate.dialect">${hibernate.dialect}</prop> -->
-                <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
-<!--                 <prop key="hibernate.show_sql">${hibernate.show_sql:false}</prop> -->
-                <prop key="hibernate.show_sql">true</prop>
-<!--                 <prop key="hibernate.format_sql">${hibernate.format_sql:false}</prop> -->
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
-            </props>
-        </property>       
+
+<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> -->
+<!--         <property name="driverClassName" value="com.mysql.jdbc.Driver"/> -->
+<!--         <property name="url" value="jdbc:mysql://localhost:3306/usersdb"/> -->
+<!--         <property name="username" value="root"/> -->
+<!--         <property name="password" value="P@ssw0rd"/> -->
+<!--     </bean>	 -->
+    
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
     </bean>
      
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+<!-- 	<bean id="userDao" class="net.codejava.spring.dao.UserDAOImpl"> -->
+<!-- 	    <constructor-arg> -->
+<!-- 	        <ref bean="sessionFactory" /> -->
+<!-- 	    </constructor-arg> -->
+<!-- 	</bean>    	 -->
+     
+<!--     <bean id="hibernate3AnnotatedSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" > -->
+<!--         <property name="dataSource" ref="dataSource"/> -->
+<!--         <property name="packagesToScan"> -->
+<!--             <list> -->
+<!--                 <value>ar.com.sgt.dominio.Persona</value> -->
+<!--             </list> -->
+<!--         </property> -->
+<!--         <property name="hibernateProperties"> -->
+<!--             <props> -->
+<!--                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop> -->
+<!--                 <prop key="hibernate.show_sql">true</prop> -->
+<!--                 <prop key="hibernate.hbm2ddl.auto">create</prop> -->
+<!--             </props> -->
+<!--         </property>        -->
+<!--     </bean> -->
+     
     <bean id="personaDAO" class="ar.com.sgt.dao.PersonaDAO">
-        <property name="sessionFactory" ref="hibernate3AnnotatedSessionFactory" />
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
  
