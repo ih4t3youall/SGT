@@ -42,11 +42,5 @@ public class Persona {
 	public void setConuntry(String conuntry) {
 		this.conuntry = conuntry;
 	}
-	
-	@Override
-	public String toString(){
-		return id+name+conuntry;
-		
-	}
 
 }
