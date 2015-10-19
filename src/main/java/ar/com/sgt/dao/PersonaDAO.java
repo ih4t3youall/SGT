@@ -13,9 +13,6 @@ public class PersonaDAO {
 	
 	 private SessionFactory sessionFactory;
 	 
-	    public void setSessionFactory(SessionFactory sessionFactory) {
-	        this.sessionFactory = sessionFactory;
-	    }
 	     
 	    
 	    public void save(Persona p) {

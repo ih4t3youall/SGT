@@ -1,77 +1,49 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
- xmlns:context="http://www.springframework.org/schema/context"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
  http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
  http://www.springframework.org/schema/context
  http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
- <context:component-scan base-package="ar.com.sgt.controllers" />
+	<context:component-scan base-package="ar.com.sgt.controllers" />
 
- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
- <property name="prefix">
-   <value>/WEB-INF/jsp/</value>
- </property>
- <property name="suffix">
-    <value>.jsp</value>
- </property>
- 
- </bean>
- 
- <bean id="dataSource"
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+
+	</bean>
+
+	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-    <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
-    <property name="username" value="sgt"/>
-    <property name="password" value="94ax7m2"/>
-</bean>
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+		<property name="username" value="sgt" />
+		<property name="password" value="94ax7m2" />
+	</bean>
 
 
-
-<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"> -->
-<!--         <property name="driverClassName" value="com.mysql.jdbc.Driver"/> -->
-<!--         <property name="url" value="jdbc:mysql://localhost:3306/usersdb"/> -->
-<!--         <property name="username" value="root"/> -->
-<!--         <property name="password" value="P@ssw0rd"/> -->
-<!--     </bean>	 -->
-    
-    <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
-    </bean>
-     
-    <bean id="transactionManager"
-        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
-    
-<!-- 	<bean id="userDao" class="net.codejava.spring.dao.UserDAOImpl"> -->
-<!-- 	    <constructor-arg> -->
-<!-- 	        <ref bean="sessionFactory" /> -->
-<!-- 	    </constructor-arg> -->
-<!-- 	</bean>    	 -->
-     
-<!--     <bean id="hibernate3AnnotatedSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" > -->
-<!--         <property name="dataSource" ref="dataSource"/> -->
-<!--         <property name="packagesToScan"> -->
-<!--             <list> -->
-<!--                 <value>ar.com.sgt.dominio.Persona</value> -->
-<!--             </list> -->
-<!--         </property> -->
-<!--         <property name="hibernateProperties"> -->
-<!--             <props> -->
-<!--                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop> -->
-<!--                 <prop key="hibernate.show_sql">true</prop> -->
-<!--                 <prop key="hibernate.hbm2ddl.auto">create</prop> -->
-<!--             </props> -->
-<!--         </property>        -->
-<!--     </bean> -->
-     
-    <bean id="personaDAO" class="ar.com.sgt.dao.PersonaDAO">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+	</bean>
 
- 
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<bean id="personaDAO" class="ar.com.sgt.dao.PersonaDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
 </beans>
