@@ -41,8 +41,10 @@
 	</bean>
 
 
-	<bean id="personaDAO" class="ar.com.sgt.dao.PersonaDAO">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean id="menuService" class="ar.com.sgt.services.impl.MenuService">
+	</bean>
+	
+	<bean id="userService" class="ar.com.sgt.services.impl.UserServiceImpl">
 	</bean>
 
 
