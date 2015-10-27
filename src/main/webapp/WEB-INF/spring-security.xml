@@ -6,26 +6,38 @@
 	http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/*" access="ROLE_ANONYMOUS" />
+		<intercept-url pattern="/loginEmpleado.htm" access="ROLE_ANONYMOUS" />
+		<intercept-url pattern="/welcome.htm" access="ROLE_USER" />
 		
-		<form-login login-page="/login.htm" default-target-url="/welcome.htm"
-			authentication-failure-url="/loginfailed.htm" />
-		<logout logout-success-url="/logout.htm" />
+		<form-login login-page="/loginEmpleado.htm" default-target-url="/welcome.htm"
+			authentication-failure-url="/loginFailEmpleado.htm" 
+			/>
+		<logout logout-success-url="/loginEmpleado.htm" />
 	</http>
 
 	<authentication-manager>
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
 				
-				users-by-username-query="
-					select username,password, enabled 
-					from users where USERNAME=?"
-				
-				authorities-by-username-query="
-					select u.username, ur.authority from users u, user_roles ur 
-					where u.user_id = ur.user_id and u.username =?" 
+				users-by-username-query="select username,password, 1 as enabled  
+					from USER_EMPL where USERNAME=?"
 					
-			/>
+					
+					authorities-by-username-query="
+ 					select u.username, ur.authority from USER_EMPL u, USER_ROLES ur  
+ 					where u.user_id = ur.user_id and u.username =?"  
+/>
+
+<!-- 					select username,password, enabled  -->
+<!-- 					from users where USERNAME=?" -->
+
+					
+				
+<!-- 				authorities-by-username-query=" -->
+<!-- 					select u.username, ur.authority from users u, user_roles ur  -->
+<!-- 					where u.user_id = ur.user_id and u.username =?"  -->
+					
+		
 		</authentication-provider>
 	</authentication-manager>
 

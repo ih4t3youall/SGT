@@ -9,31 +9,23 @@
 
 	<context:component-scan base-package="ar.com.sgt.controllers" />
 
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/jsp/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-
+	<bean id="viewResolver"		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
 	</bean>
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-		<property name="username" value="sgt" />
-		<property name="password" value="94ax7m2" />
+		<property name="username" value="SGT" />
+<!-- 		<property name="password" value="94ax7m2" /> -->
+		<property name="password" value="SGT_2015" />
 	</bean>
 
 
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
-	</bean>
+	
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
@@ -41,11 +33,19 @@
 	</bean>
 
 
-	<bean id="menuService" class="ar.com.sgt.services.impl.MenuService">
+
+	
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+		
+		
+	</bean>
+		<bean id="menuService" class="ar.com.sgt.services.impl.MenuService">
 	</bean>
 	
 	<bean id="userService" class="ar.com.sgt.services.impl.UserServiceImpl">
 	</bean>
-
 
 </beans>
