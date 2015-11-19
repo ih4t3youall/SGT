@@ -1,18 +1,15 @@
-package ar.com.sgt.dto;
+package ar.com.sgt.persistence.entity;
 
 public class PinDTO {
 
-	
-	private int pin;
+    private int pin;
 
-	public int getPin() {
-		return pin;
-	}
+    public int getPin() {
+	return pin;
+    }
 
-	public void setPin(int pin) {
-		this.pin = pin;
-	}
-	
-	
-	
+    public void setPin(int pin) {
+	this.pin = pin;
+    }
+
 }

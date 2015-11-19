@@ -1,12 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
  http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
  http://www.springframework.org/schema/context
- http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-
+ http://www.springframework.org/schema/context/spring-context-4.0.xsd
+ http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	<context:property-placeholder location="classpath:properties/DEV-rs-persistence.properties" ignore-unresolvable="true"/>
+    <context:annotation-config />
 	<context:component-scan base-package="ar.com.sgt.controllers" />
 
 	<bean id="viewResolver"		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -15,37 +20,108 @@
 		<property name="order" value="1" />
 	</bean>
 
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
-		<property name="username" value="SGT" />
-<!-- 		<property name="password" value="94ax7m2" /> -->
-		<property name="password" value="SGT_2015" />
-	</bean>
+<!--	Entity Manager Declaration JPA compliance  -->    
+ 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!-- <property name="persistenceXmlLocation" value="classpath:config/persistence.xml" /> -->
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="ar.com.sgt.persistence.entity*" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="${hibernate.show_sql}" />
+                <property name="databasePlatform" value="${hibernate.dialect}" />
+            </bean>
+        </property>
+                <property name="jpaProperties">
+	            <props>
+<!-- 	                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> -->
+<!-- 	                <prop key="hibernate.hbm2ddl.import_files">${hibernate.hbm2ddl.import_files}</prop> -->
+ 					<prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
+	                <prop key="hibernate.check_nullability">${hibernate.check_nullability}</prop>
+	                <prop key="org.hibernate.flushMode">COMMIT</prop>
+	                
+<!-- 	                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop> -->
+			         <!-- enable second level cache and query cache -->
+<!-- 			        <prop key="hibernate.cache.use_second_level_cache">true</prop> -->
+<!-- 			        <prop key="hibernate.cache.use_query_cache">true</prop> -->
+<!-- 			        <prop key="net.sf.ehcache.configurationResourceName">/ehcache-rs-persistence.xml</prop> -->
+	                
+	            </props>
+        </property>
+    </bean>  
+	
+	<!-- Data Source Declaration-->
+<!-- 		 The JNDI way --> 
+<!-- 		<jee:jndi-lookup id="rsds"  -->
+<!-- 			jndi-name="${datasource.jndi-name}"  -->
+<!-- 			cache="true"  -->
+<!-- 			expected-type="javax.sql.DataSource"/> -->
+		 <!-- END The JNDI way -->
+		
+		<!-- The driver managed way -->
+  	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+			    p:driverClassName="${dataSource.driver}"
+			    p:url="${dataSource.url}"
+			    p:username="${dataSource.user}"
+			    p:password="${dataSource.password}"/>
+		<!-- END The driver managed way -->
+    
+    	<!-- JPA TX configuration -->
+	<tx:annotation-driven transaction-manager="transactionManager" />  
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+		<!-- JPA TX configuration -->
+	
+	<!-- END Data Source Declaration-->
+	
+	<tx:annotation-driven />
+
+<!-- 	<bean id="dataSource" -->
+<!-- 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> -->
+<!-- 		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" /> -->
+<!-- 		<property name="username" value="SGT" /> -->
+<!--  		<property name="password" value="94ax7m2" /> --> 
+<!-- 		<property name="password" value="SGT_2015" /> -->
+<!-- 	</bean> -->
 
 
 	
 
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
+<!-- 	<bean id="transactionManager" -->
+<!-- 		class="org.springframework.orm.hibernate4.HibernateTransactionManager"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 	</bean> -->
 
 
 
 	
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+<!-- 	<bean id="sessionFactory" -->
+<!-- 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> -->
+<!-- 		<property name="dataSource" ref="dataSource" /> -->
+<!-- 		<property name="configLocation" value="classpath:hibernate.cfg.xml" /> -->
 		
 		
+<!-- 	</bean> -->
+	
+	<bean id="clienteController" name="clienteController" class="ar.com.sgt.controllers.ClienteController" >
+		<property name="menuService" ref="menuService"/>
+		<property name="userService" ref="userService"/>
+		<property name="clienteService" ref="clienteService"/>
 	</bean>
 		<bean id="menuService" class="ar.com.sgt.services.impl.MenuService">
 	</bean>
-	
+<!-- 	SERVICE's -->
 	<bean id="userService" class="ar.com.sgt.services.impl.UserServiceImpl">
+	</bean>
+	<bean id="clienteService" class="ar.com.sgt.services.impl.ClienteService">
+		<property name="clienteDao" ref="clienteDao"></property>
+	</bean>
+	
+<!-- 	DAO'S -->
+	
+	<bean id="clienteDao" class="ar.com.sgt.persistence.dao.impl.ClienteDao">
+		
 	</bean>
 
 </beans>
