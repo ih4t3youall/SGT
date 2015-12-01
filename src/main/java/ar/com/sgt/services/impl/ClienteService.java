@@ -20,8 +20,9 @@ public class ClienteService implements IClienteService {
      * 
      * @see ar.com.sgt.services.IClienteService#getClienteByPin(int)
      */
+    @Override
     public Cliente getClienteByPin(int pin) {
-	return clienteDao.getClienteByPin(pin);
+    	return clienteDao.getClienteByPin(pin);
     }
 
     /**

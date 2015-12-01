@@ -1,10 +1,11 @@
 package ar.com.sgt.services.impl;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MenuService {
 
-	public HashMap<String, String> menuCliente() {
+	public Map<String, String> menuCliente() {
 
 		HashMap<String, String> menuCliente = new HashMap<String,String>();
 		menuCliente.put("Banca personal", "urla");
@@ -17,7 +18,7 @@ public class MenuService {
 		return menuCliente;
 	}
 
-	public HashMap<String, String> menuNoCliente() {
+	public Map<String, String> menuNoCliente() {
 
 		
 		HashMap<String, String> menuNoCliente = new HashMap<String,String>();

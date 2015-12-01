@@ -12,7 +12,7 @@ public class Persona {
 	@Id
 	@Column(name="id")
 	private int id;
-	
+
 	@Column(name="nombre")
 	private String name;
 	

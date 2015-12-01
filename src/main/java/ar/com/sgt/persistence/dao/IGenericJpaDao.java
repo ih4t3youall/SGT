@@ -25,8 +25,8 @@ public interface IGenericJpaDao<T, K extends Serializable> {
 
 	public PaginationParams(int pageSize, int pageNumber) {
 
-	    this.pageSize = pageSize;
-	    this.pageNumber = pageNumber;
+		this.pageSize = pageSize;
+		this.pageNumber = pageNumber;
 	}
 
 	public int getPageSize() {

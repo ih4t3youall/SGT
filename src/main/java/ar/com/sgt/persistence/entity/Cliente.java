@@ -23,6 +23,7 @@ public class Cliente implements java.io.Serializable {
     private String apellido;
 
     public Cliente() {
+    	//default constructor
     }
 
     public Cliente(Integer idcliente) {
