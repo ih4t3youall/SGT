@@ -1,4 +1,4 @@
-package ar.com.sgt.persistence.entity;
+package ar.com.sgt.persistence.dto;
 
 public class PinDTO {
 

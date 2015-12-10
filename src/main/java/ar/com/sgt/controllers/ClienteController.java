@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import ar.com.sgt.persistence.dto.PinDTO;
 import ar.com.sgt.persistence.entity.Cliente;
-import ar.com.sgt.persistence.entity.PinDTO;
 import ar.com.sgt.services.IClienteService;
 import ar.com.sgt.services.UserService;
 import ar.com.sgt.services.impl.MenuService;
