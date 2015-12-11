@@ -108,6 +108,7 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 		<property name="menuService" ref="menuService"/>
 		<property name="userService" ref="userService"/>
 		<property name="clienteService" ref="clienteService"/>
+		<property name="ticketService" ref="ticketService"/>
 	</bean>
 		<bean id="menuService" class="ar.com.sgt.services.impl.MenuService">
 	</bean>
@@ -118,10 +119,19 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 		<property name="clienteDao" ref="clienteDao"></property>
 	</bean>
 	
+	<bean id="ticketService" class="ar.com.sgt.services.impl.TicketService">
+        <property name="ticketDao" ref="ticketDao"></property>
+        <property name="pathTemplate" value="${pdf.location}"></property>
+    </bean>
+	
 <!-- 	DAO'S -->
 	
 	<bean id="clienteDao" class="ar.com.sgt.persistence.dao.impl.ClienteDao">
 		
 	</bean>
+	
+	   <bean id="ticketDao" class="ar.com.sgt.persistence.dao.impl.TicketDao">
+        
+    </bean>
 
 </beans>

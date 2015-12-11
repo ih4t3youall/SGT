@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <script src="resources/jquery/jquery-1.11.3.min.js"></script>
@@ -38,7 +39,9 @@
 		</div>
 		<!-- /container -->
 	</div>
-	<div class="container">
+	  <div class="container">
+	<form:form action="createTicket.htm" method="post">
+
 
 
 
@@ -49,16 +52,20 @@
 
 				<!-- 		<ul class="nav nav-pills nav-justified"> -->
 
-
-				<c:if test="${not empty clienteDTO}">
-
-					<h1>Bienvenido ${clienteDTO.nombre}</h1>
-				</c:if>
+        <c:choose>
+            <c:when test="${not empty clienteDTO}">
+                <input type="hidden" name="tipocliente" value="cliente">
+                    <h1>Bienvenido ${clienteDTO.nombre}</h1>
+            </c:when>
+            <c:otherwise>
+                <input type="hidden" name="tipocliente" value="nocliente">
+            </c:otherwise>
+        </c:choose>
 				<div class="btn-group-vertical" role="group"
 					aria-label="Vertical button group">
 					<c:forEach var="entry" items="${opciones}">
 
-						<button type="button" class="btn btn-default">
+						<button type="submit" class="btn btn-default" name="seleccion" onclick="document.getElementById('createTicket').click();" value="${entry.value}">
 							<c:out value="${entry.key}"></c:out>
 						</button>
 
@@ -83,7 +90,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+		</form:form>
+	</div> 
 </body>
 
 </html>

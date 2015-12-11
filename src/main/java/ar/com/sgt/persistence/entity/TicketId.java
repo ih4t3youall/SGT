@@ -15,5 +15,6 @@ public class TicketId implements Serializable{
     @Column(name="ticket_id")
     private Integer ticketId;
     
+    @Column(name="tipo")
     private String tipo;
 }

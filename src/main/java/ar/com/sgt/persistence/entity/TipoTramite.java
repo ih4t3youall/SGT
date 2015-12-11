@@ -16,18 +16,14 @@ import lombok.Data;
 @SuppressWarnings("unused")
 public class TipoTramite implements Serializable {
     
+    private String tipoCliente;
+    
     private String descripcion;
     
     @Id
     private String tipo;
     
     @ManyToMany
-/*    @JoinTable(name="TICKETS_CUBICULO",
-        joinColumns=
-            @JoinColumn(name="cubiculo_id", referencedColumnName="cubiculo_id"),
-        inverseJoinColumns=
-            @JoinColumn(name="tipo_id", referencedColumnName="tipo")
-        )*/
     private Set<Cubiculo> cubiculos; 
     
 

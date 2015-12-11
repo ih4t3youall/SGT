@@ -8,12 +8,12 @@ public class MenuService {
 	public Map<String, String> menuCliente() {
 
 		HashMap<String, String> menuCliente = new HashMap<String,String>();
-		menuCliente.put("Banca personal", "urla");
-		menuCliente.put("Cajas", "urlb");
-		menuCliente.put("Seguros", "urlc");
-		menuCliente.put("Premium", "urld");
-		menuCliente.put("Gestion", "urld");
-		menuCliente.put("Inversiones", "urld");
+		menuCliente.put("Banca personal", "C");
+		menuCliente.put("Cajas", "A");
+		menuCliente.put("Seguros", "E");
+		menuCliente.put("Premium", "D");
+		menuCliente.put("Gestion", "B");
+		menuCliente.put("Inversiones", "F");
 		
 		return menuCliente;
 	}
@@ -22,10 +22,10 @@ public class MenuService {
 
 		
 		HashMap<String, String> menuNoCliente = new HashMap<String,String>();
-		menuNoCliente.put("Cajas", "urla");
-		menuNoCliente.put("Gestion", "urlb");
-		menuNoCliente.put("Altas", "urlc");
-		menuNoCliente.put("Consultas", "urld");
+		menuNoCliente.put("Cajas", "A");
+		menuNoCliente.put("Gestion", "B");
+		menuNoCliente.put("Altas", "G");
+		menuNoCliente.put("Consultas", "H");
 
 		return menuNoCliente;
 	}
