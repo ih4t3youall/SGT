@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="user_empl")
+@Table(name="user_empleado")
 @Data
 @SuppressWarnings("unused")
 public class User implements Serializable{  

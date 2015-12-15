@@ -39,5 +39,8 @@ public class ClienteService implements IClienteService {
     public void setClienteDao(IClienteDao clienteDao) {
 	this.clienteDao = clienteDao;
     }
+    
+    
+    
 
 }

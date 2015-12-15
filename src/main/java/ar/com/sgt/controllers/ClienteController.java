@@ -26,7 +26,7 @@ import ar.com.sgt.services.impl.MenuService;
 
 @Controller
 public class ClienteController {
-	static final Logger LOG = LoggerFactory.getLogger(ClienteController.class);
+	static final Logger LOG = LoggerFactory.getLogger(ClienteControllerTest.class);
 
 	private MenuService menuService;
 

@@ -62,6 +62,23 @@
 			<scope>provided</scope>
 		</dependency>
 
+
+
+		<!-- mockito dependencyes -->
+
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.8</version>
+		</dependency>
+
+
+
+
+		<!-- fin mockito dependencyes -->
+
+
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>

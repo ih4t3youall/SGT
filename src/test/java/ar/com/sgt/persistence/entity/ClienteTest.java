@@ -9,7 +9,7 @@ public class ClienteTest {
     
     @Test
     public void testGettersAndSetters(){
-        Cliente cliente= new Cliente();
+        Cliente cliente= new Cliente(1);
         cliente.setApellido("Perez");
         cliente.setIdcliente(1);
         cliente.setPin(2);
