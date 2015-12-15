@@ -1,6 +1,8 @@
 <html>
 <head>
 <!-- Latest compiled and minified CSS -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 
@@ -24,17 +26,6 @@
 				</button>
 				<a class="navbar-brand" href="#">Sistema de Gestion de turnos</a>
 			</div>
-			<!--         <div class="navbar-collapse collapse"> -->
-			<!--             <ul class="nav navbar-nav navbar-right"> -->
-			<!--                 <li class="dropdown"> -->
-			<!--                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a> -->
-			<!--                     <ul id="g-account-menu" class="dropdown-menu" role="menu"> -->
-			<!--                         <li><a href="#">My Profile</a></li> -->
-			<!--                     </ul> -->
-			<!--                 </li> -->
-			<%--                 <li><a href="<c:url value="j_spring_security_logout"/>"><i class="glyphicon glyphicon-lock"></i> Logout</a></li> --%>
-			<!--             </ul> -->
-			<!--         </div> -->
 		</div>
 		<!-- /container -->
 	</div>
@@ -69,30 +60,17 @@
 
 						</div>
 					</div>
-					<!-- 							<button type="submit" class="btn btn-primary" -->
-					<!-- 								onclick="return validarEmpleado('user','pass');">Aceptar</button> -->
 
 				</div>
 			</div>
 
 		</div>
 	</div>
-	<!-- 	<div class="well"> -->
-
-	<!-- 		<ul class="nav nav-pills nav-justified"> -->
-	<!-- 			<li class="active" role="presentation"><a -->
-	<!-- 				href="usuarioCliente.htm">Cliente</a></li> -->
-	<!-- 			<li role="presentation"><a href="usuarioNoCliente.htm">No -->
-	<!-- 					cliente</a></li> -->
-	<!-- 		</ul> -->
-
-	<%-- <a id="privacyLink" style="visibility: hidden;" data-rel="dialog" href="${pageContext.request.contextPath}/privacy.do"></a> --%>
-	<!-- 	</div> -->
-
 
 	<a id="usuarioCliente" href="usuarioCliente.htm"
 		style="visibility: hidden;" />
-	<a id="usuarioNoCliente" href="usuarioNoCliente.htm" style="visibility: hidden;" />
+	<a id="usuarioNoCliente" href="usuarioNoCliente.htm"
+		style="visibility: hidden;" />
 </body>
 
 </html>

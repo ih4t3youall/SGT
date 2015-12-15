@@ -51,7 +51,7 @@ public class TicketService implements ITicketService {
 		PDDocumentCatalog docCatalog = pdfTemplate.getDocumentCatalog();
 		PDAcroForm acroForm = docCatalog.getAcroForm();
 		acroForm.getField(PDFTicketNames.NUMERO_TURNO.getName())
-				.setValue(ticket.getIdTicket().getTipo() + String.format("%03d", ticket.getIdTicket().getTicketId()));
+				.setValue(ticket.getIdTicket().getTipo() + String.format("%04d", ticket.getIdTicket().getTicketId()));
 		acroForm.getField(PDFTicketNames.FECHA_TURNO.getName())
 				.setValue(String.format("%02d", time.get(Calendar.DAY_OF_MONTH)) + "/"
 						+ String.format("%02d", time.get(Calendar.MONTH) + 1) + "/" + time.get(Calendar.YEAR));

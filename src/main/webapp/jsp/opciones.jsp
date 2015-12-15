@@ -3,6 +3,7 @@
 <html>
 <head>
 <script src="resources/jquery/jquery-1.11.3.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="resources/bootstrap-3.3.5-dist/css/bootstrap.min.css">
@@ -25,17 +26,6 @@
 				</button>
 				<a class="navbar-brand" href="#">Sistema de Gestion de turnos</a>
 			</div>
-			<!--         <div class="navbar-collapse collapse"> -->
-			<!--             <ul class="nav navbar-nav navbar-right"> -->
-			<!--                 <li class="dropdown"> -->
-			<!--                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a> -->
-			<!--                     <ul id="g-account-menu" class="dropdown-menu" role="menu"> -->
-			<!--                         <li><a href="#">My Profile</a></li> -->
-			<!--                     </ul> -->
-			<!--                 </li> -->
-			<%--                 <li><a href="<c:url value="j_spring_security_logout"/>"><i class="glyphicon glyphicon-lock"></i> Logout</a></li> --%>
-			<!--             </ul> -->
-			<!--         </div> -->
 		</div>
 		<!-- /container -->
 	</div>
@@ -69,19 +59,7 @@
 							<c:out value="${entry.key}"></c:out>
 						</button>
 
-
-
-						<!-- 				<ul class="nav nav-pills nav-justified"> -->
-						<!-- 					<li class="active" role="presentation"><a -->
-						<%-- 						href="<c:out value="${entry.value}"/>"><c:out --%>
-						<%-- 								value="${entry.key}" /></a></li> --%>
-						<!-- 				</ul> -->
-						<!-- 				<br /> -->
-
 					</c:forEach>
-
-
-					<!-- 		</ul> -->
 
 					<ul class="nav nav-pills nav-justified">
 						<li class="active" role="presentation"><a
