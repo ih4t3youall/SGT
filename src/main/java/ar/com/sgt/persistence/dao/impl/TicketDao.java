@@ -6,6 +6,7 @@ import ar.com.sgt.persistence.entity.TicketId;
 
 public class TicketDao extends GenericJpaDao<Ticket,TicketId> implements ITicketDao{
     
+    @Override
     public Integer getNextId(String tipo){
         Integer cantidad=((Number)getEntityManager().createNamedQuery("Ticket.getNextTicketId").
                 setParameter("tipo", tipo).getSingleResult()).intValue();

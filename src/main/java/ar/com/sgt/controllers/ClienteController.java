@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.pdfbox.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,16 +19,15 @@ import ar.com.sgt.persistence.dto.PinDTO;
 import ar.com.sgt.persistence.entity.Cliente;
 import ar.com.sgt.services.IClienteService;
 import ar.com.sgt.services.ITicketService;
-import ar.com.sgt.services.UserService;
 import ar.com.sgt.services.impl.MenuService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class ClienteController {
-	static final Logger LOG = LoggerFactory.getLogger(ClienteControllerTest.class);
+
 
 	private MenuService menuService;
-
-	private UserService userService;
 
 	private IClienteService clienteService;
 	
@@ -38,43 +35,43 @@ public class ClienteController {
 
 	@RequestMapping("seleccionarUsuario")
 	public ModelAndView seleccionarUsuario() {
-		LOG.trace("entered seleccionarUsuario");
+		log.trace("entered seleccionarUsuario");
 		ModelAndView mav = new ModelAndView("seleccionTipoCliente");
-		LOG.trace("finished seleccionarUsuario");
+		log.trace("finished seleccionarUsuario");
 		return mav;
 
 	}
 
 	@RequestMapping("usuarioCliente")
 	public ModelAndView usuarioCliente() {
-		LOG.trace("entered usuarioCliente");
+		log.trace("entered usuarioCliente");
 		ModelAndView mav = new ModelAndView("ingresoCliente");
 		mav.addObject("pinDTO", new PinDTO());
-		LOG.trace("finished usuarioCliente");
+		log.trace("finished usuarioCliente");
 		return mav;
 
 	}
 
 	@RequestMapping("verificarPin")
 	public ModelAndView verificarPin(PinDTO pinDTO) {
-		LOG.debug("entered verificarPin");
+		log.debug("entered verificarPin");
 		Cliente cliente = clienteService.getClienteByPin(pinDTO.getPin());
 
 		ModelAndView mav = new ModelAndView("opciones");
 		Map<String, String> menuCliente = menuService.menuCliente();
 		mav.addObject("opciones", menuCliente);
 		mav.addObject("clienteDTO", cliente);
-		LOG.debug("finished verificarPin");
+		log.debug("finished verificarPin");
 		return mav;
 	}
 
 	@RequestMapping("usuarioNoCliente")
 	public ModelAndView usuarioNoCliente() {
-		LOG.debug("entered verificarPin");
+		log.debug("entered verificarPin");
 		ModelAndView mav = new ModelAndView("opciones");
 		Map<String, String> menuNoCliente = menuService.menuNoCliente();
 		mav.addObject("opciones", menuNoCliente);
-		LOG.debug("finished verificarPin");
+		log.debug("finished verificarPin");
 		return mav;
 
 	}
@@ -82,7 +79,7 @@ public class ClienteController {
 	
 	@RequestMapping(value="createTicket")
 	public ResponseEntity<byte[]> createTicket(@RequestParam("seleccion")String tipoTramite, @RequestParam("tipocliente")String tipoCliente) throws FileNotFoundException, IOException {
-        LOG.debug("entered createTicket");
+        log.debug("entered createTicket");
         String path=ticketService.crearTicket(tipoCliente, tipoTramite);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/pdf"));
@@ -101,14 +98,6 @@ public class ClienteController {
 
 	public void setMenuService(MenuService menuService) {
 		this.menuService = menuService;
-	}
-
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
 	}
 
 	/**

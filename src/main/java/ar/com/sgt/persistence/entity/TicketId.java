@@ -13,7 +13,7 @@ import lombok.Data;
 public class TicketId implements Serializable{
 
     @Column(name="ticket_id")
-    private Integer ticketId;
+    private Integer id;
     
     @Column(name="tipo")
     private String tipo;

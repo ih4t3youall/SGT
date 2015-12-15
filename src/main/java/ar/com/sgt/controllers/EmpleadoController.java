@@ -3,9 +3,6 @@
  */
 package ar.com.sgt.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,7 @@ public class EmpleadoController {
 	static final Logger LOG = LoggerFactory.getLogger(EmpleadoController.class);
 
 	@RequestMapping("/loginEmpleado")
-	public ModelAndView loadPage(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView loadPage() {
 
 		ModelAndView model = new ModelAndView("loginEmpleado");
 
@@ -30,7 +27,7 @@ public class EmpleadoController {
 	}
 
 	@RequestMapping("/loginFailEmpleado")
-	public ModelAndView loadPageFail(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView loadPageFail() {
 
 		ModelAndView model = new ModelAndView("loginEmpleado");
 		model.addObject("error", "fail");
@@ -39,7 +36,7 @@ public class EmpleadoController {
 	}
 
 	@RequestMapping("/welcome")
-	public ModelAndView loadWelcomeEmpleado(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView loadWelcomeEmpleado() {
 
 		ModelAndView model = new ModelAndView("menuEmpleado");
 

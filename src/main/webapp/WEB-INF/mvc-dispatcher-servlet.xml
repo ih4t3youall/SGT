@@ -111,7 +111,6 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	<bean id="clienteController" name="clienteController"
 		class="ar.com.sgt.controllers.ClienteController">
 		<property name="menuService" ref="menuService" />
-		<property name="userService" ref="userService" />
 		<property name="clienteService" ref="clienteService" />
 		<property name="ticketService" ref="ticketService" />
 	</bean>
@@ -121,8 +120,6 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	<bean id="systemHelper" class="ar.com.sgt.services.impl.SystemHelper">
 	</bean>
 	<!-- SERVICE's -->
-	<bean id="userService" class="ar.com.sgt.services.impl.UserServiceImpl">
-	</bean>
 	<bean id="clienteService" class="ar.com.sgt.services.impl.ClienteService">
 		<property name="clienteDao" ref="clienteDao"></property>
 	</bean>

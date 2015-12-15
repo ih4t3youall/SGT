@@ -51,14 +51,14 @@ public class TicketService implements ITicketService {
 		PDDocumentCatalog docCatalog = pdfTemplate.getDocumentCatalog();
 		PDAcroForm acroForm = docCatalog.getAcroForm();
 		acroForm.getField(PDFTicketNames.NUMERO_TURNO.getName())
-				.setValue(ticket.getIdTicket().getTipo() + String.format("%04d", ticket.getIdTicket().getTicketId()));
+				.setValue(ticket.getIdTicket().getTipo() + String.format("%04d", ticket.getIdTicket().getId()));
 		acroForm.getField(PDFTicketNames.FECHA_TURNO.getName())
 				.setValue(String.format("%02d", time.get(Calendar.DAY_OF_MONTH)) + "/"
 						+ String.format("%02d", time.get(Calendar.MONTH) + 1) + "/" + time.get(Calendar.YEAR));
 		acroForm.getField(PDFTicketNames.HORA_TURNO.getName())
 				.setValue(String.format("%02d", time.get(Calendar.HOUR_OF_DAY)) + ":"
 						+ String.format("%02d", time.get(Calendar.MINUTE)) + ":"
-						+ String.format("%02d", time.get((Calendar.SECOND))));
+						+ String.format("%02d", time.get(Calendar.SECOND)));
 		String pathLocationSave = systemHelper.getTemporalDir() + UUID.randomUUID() + ".pdf";
 		log.info(pathLocationSave);
 		pdfTemplate.save(pathLocationSave);
@@ -70,7 +70,7 @@ public class TicketService implements ITicketService {
 		Integer id = ticketDao.getNextId(tipoTramite);
 		Ticket ticket = new Ticket();
 		TicketId idTicket = new TicketId();
-		idTicket.setTicketId(id);
+		idTicket.setId(id);
 		idTicket.setTipo(tipoTramite);
 		ticket.setIdTicket(idTicket);
 		ticket.setTipoCliente(tipoCliente);

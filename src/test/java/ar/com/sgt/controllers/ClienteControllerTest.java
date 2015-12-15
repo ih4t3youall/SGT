@@ -6,23 +6,15 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.web.servlet.ModelAndView;
 
-import ar.com.sgt.persistence.constants.PDFTicketNames;
 import ar.com.sgt.persistence.dto.PinDTO;
 import ar.com.sgt.persistence.entity.Cliente;
-import ar.com.sgt.persistence.entity.Ticket;
 import ar.com.sgt.services.impl.ClienteService;
 import ar.com.sgt.services.impl.MenuService;
 import ar.com.sgt.services.impl.TicketService;
@@ -35,13 +27,7 @@ public class ClienteControllerTest {
 	@Test
 	public void seleccionarUsuario(){
 		ModelAndView seleccionarUsuario = clienteController.seleccionarUsuario();
-		
 		assertEquals(seleccionarUsuario.getViewName(), "seleccionTipoCliente");
-		
-		
-		
-		
-		
 	}
 	
 	@Test
