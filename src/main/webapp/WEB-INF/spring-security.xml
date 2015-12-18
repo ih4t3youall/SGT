@@ -6,8 +6,8 @@
 	http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
 
 	<http auto-config="true">
-		<intercept-url pattern="/loginEmpleado.htm" access="ROLE_ANONYMOUS" />
-		<intercept-url pattern="/welcome.htm" access="ROLE_USER" />
+		<intercept-url pattern="/*" access="ROLE_ANONYMOUS" />
+<!-- 		<intercept-url pattern="/welcome.htm" access="ROLE_USER" /> -->
 		
 		<form-login login-page="/loginEmpleado.htm" default-target-url="/welcome.htm"
 			authentication-failure-url="/loginFailEmpleado.htm" 

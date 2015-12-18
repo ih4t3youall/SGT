@@ -130,6 +130,18 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 		<property name="pathTemplate" value="${pdf.location}"></property>
 	</bean>
 
+
+	<bean id="empleadoController" class="ar.com.sgt.controllers.EmpleadoController">
+		<property name="userService" ref="userService"></property>
+		<property name="queueService" ref="queueService"></property>
+	</bean>
+	
+	<bean id="queueService" class="ar.com.sgt.services.impl.QueueService">
+	
+	</bean>
+	
+	<bean id="userService" class="ar.com.sgt.services.impl.UserService">
+	</bean>
 	<!-- DAO'S -->
 
 	<bean id="clienteDao" class="ar.com.sgt.persistence.dao.impl.ClienteDao">

@@ -9,25 +9,30 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<spring-framework.version>4.0.5.RELEASE</spring-framework.version>
+		<spring-framework.version>4.2.0.RELEASE</spring-framework.version>
 		<org.hibernate.version>4.3.5.Final</org.hibernate.version>
 		<org.hibernate.validator.version>5.1.1.Final</org.hibernate.validator.version>
 		<org.apache.tomcat.tomcat-jdbc.version>7.0.27</org.apache.tomcat.tomcat-jdbc.version>
 		<logback.version>1.0.13</logback.version>
 		<slf4j.version>1.7.5</slf4j.version>
+		<jackson.version>2.6.3</jackson.version>
 		<springsecurity.version>3.0.5.RELEASE</springsecurity.version>
-
+		<activemq.version>5.13.0</activemq.version>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
 		<sonar.coverage.exclusions>src/main/java/ar/com/sgt/persistence/entity/*,src/main/java/ar/com/sgt/persistence/dao/exception/DaoException.java,
-		src/main/java/ar/com/sgt/services/impl/SystemHelper.java</sonar.coverage.exclusions>
+			src/main/java/ar/com/sgt/services/impl/SystemHelper.java</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
 
-
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-spring</artifactId>
+			<version>${activemq.version}</version>
+		</dependency>
 		<!-- ORACLE JDBC driver, need install yourself -->
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -41,6 +46,34 @@
 			<version>4.12</version>
 		</dependency>
 
+		<!-- json -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+
+		<!-- fin json -->
 
 		<!-- Javax -->
 
