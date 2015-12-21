@@ -17,6 +17,7 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<jackson.version>2.6.3</jackson.version>
 		<springsecurity.version>3.0.5.RELEASE</springsecurity.version>
+		<spring.batch.version>3.0.6.RELEASE</spring.batch.version>
 		<activemq.version>5.13.0</activemq.version>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -171,6 +172,26 @@
 			<version>${spring-framework.version}</version>
 		</dependency>
 
+
+		<!-- Spring Batch dependencies -->
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-core</artifactId>
+			<version>${spring.batch.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-infrastructure</artifactId>
+			<version>${spring.batch.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-test</artifactId>
+			<version>${spring.batch.version}</version>
+		</dependency>
+
 		<!-- Spring ORM support -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -215,12 +236,6 @@
 
 		<!-- Hibernate -->
 
-
-		<!-- <dependency> -->
-		<!-- <groupId>commons-dbcp</groupId> -->
-		<!-- <artifactId>commons-dbcp</artifactId> -->
-		<!-- <version>1.4</version> -->
-		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
@@ -251,8 +266,6 @@
 			<version>${org.hibernate.version}</version>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator</artifactId> 
-			<version>${org.hibernate.validator.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>

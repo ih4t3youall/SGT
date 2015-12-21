@@ -1,9 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+    xmlns:task="http://www.springframework.org/schema/task" 
 	xsi:schemaLocation="
  http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+  http://www.springframework.org/schema/batch
+ http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+ http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd
  http://www.springframework.org/schema/context
  http://www.springframework.org/schema/context/spring-context-4.0.xsd
  http://www.springframework.org/schema/tx 
@@ -37,28 +43,12 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-				<!-- <prop key="hibernate.hbm2ddl.import_files">${hibernate.hbm2ddl.import_files}</prop> -->
 				<prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
 				<prop key="hibernate.check_nullability">${hibernate.check_nullability}</prop>
 				<prop key="org.hibernate.flushMode">COMMIT</prop>
-
-				<!-- <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop> -->
-				<!-- enable second level cache and query cache -->
-				<!-- <prop key="hibernate.cache.use_second_level_cache">true</prop> -->
-				<!-- <prop key="hibernate.cache.use_query_cache">true</prop> -->
-				<!-- <prop key="net.sf.ehcache.configurationResourceName">/ehcache-rs-persistence.xml</prop> -->
-
 			</props>
 		</property>
 	</bean>
-
-	<!-- Data Source Declaration -->
-	<!-- The JNDI way -->
-	<!-- <jee:jndi-lookup id="rsds" -->
-	<!-- jndi-name="${datasource.jndi-name}" -->
-	<!-- cache="true" -->
-	<!-- expected-type="javax.sql.DataSource"/> -->
-	<!-- END The JNDI way -->
 
 	<!-- The driver managed way -->
 	<bean id="dataSource"
@@ -77,36 +67,6 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	<!-- END Data Source Declaration -->
 
 	<tx:annotation-driven />
-
-	<!-- <bean id="dataSource" -->
-	<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
-	<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" 
-		/> -->
-	<!-- <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" /> -->
-	<!-- <property name="username" value="SGT" /> -->
-	<!-- <property name="password" value="94ax7m2" /> -->
-	<!-- <property name="password" value="SGT_2015" /> -->
-	<!-- </bean> -->
-
-
-
-
-	<!-- <bean id="transactionManager" -->
-	<!-- class="org.springframework.orm.hibernate4.HibernateTransactionManager"> -->
-	<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
-	<!-- </bean> -->
-
-
-
-
-	<!-- <bean id="sessionFactory" -->
-	<!-- class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> -->
-	<!-- <property name="dataSource" ref="dataSource" /> -->
-	<!-- <property name="configLocation" value="classpath:hibernate.cfg.xml" 
-		/> -->
-
-
-	<!-- </bean> -->
 
 	<bean id="clienteController" name="clienteController"
 		class="ar.com.sgt.controllers.ClienteController">
@@ -151,5 +111,68 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	<bean id="ticketDao" class="ar.com.sgt.persistence.dao.impl.TicketDao">
 
 	</bean>
+	
+	
+	   <bean id="historialTicketDao" class="ar.com.sgt.persistence.dao.impl.HistorialTicketDao">
+
+    </bean>
+
+
+  <!-- Run once per day -->
+  <task:scheduled-tasks>
+      <task:scheduled ref="runScheduler" method="run" fixed-delay="86400000" /> 
+  </task:scheduled-tasks>
+  
+      <bean id="runScheduler" class="ar.com.sgt.batch.scheduler.HistorialTicketScheduler" >
+        <property name="job" ref="ticketHistoryJob" />
+       <property name="jobLauncher" ref="jobLauncher" /> 
+       </bean>
+    
+    
+    <bean id="jobRepository"
+        class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="databaseType" value="oracle" />
+        <property name="isolationLevelForCreate" value="ISOLATION_DEFAULT"/>
+    </bean>
+
+    <bean id="jobLauncher"
+        class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository" />
+    </bean>
+
+
+    <batch:job id="ticketHistoryJob">
+        <batch:step id="step1" next="step2">
+            <batch:tasklet>
+                <batch:chunk reader="ticketHibernateItemReader" writer="historialTicketHibernateWriter"
+                    processor="historialTicketHibernateProcessor" commit-interval="10">
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+        <batch:step id="step2">
+            <batch:tasklet>
+                <batch:chunk reader="ticketHibernateItemReader" writer="ticketRemoveHibernateWriter" commit-interval="10">
+                </batch:chunk>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <bean id="ticketHibernateItemReader"
+        class="org.springframework.batch.item.database.JpaPagingItemReader">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="queryString" value="from Ticket" />
+    </bean>
+
+    <bean id="historialTicketHibernateProcessor" class="ar.com.sgt.batch.processor.HistorialTicketProcessor" />
+
+    <bean id="historialTicketHibernateWriter" class="ar.com.sgt.batch.writer.HistorialTicketWriter">
+        <property name="dao" ref="historialTicketDao" />
+    </bean>
+    
+     <bean id="ticketRemoveHibernateWriter" class="ar.com.sgt.batch.writer.TicketRemoveWriter">
+        <property name="dao" ref="ticketDao" />
+    </bean>
 
 </beans>

@@ -1,12 +1,13 @@
 package ar.com.sgt.persistence.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
 
@@ -16,16 +17,17 @@ import lombok.Data;
 public class HistorialTicket implements Serializable{
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "HistorialTicketSequence",strategy=GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "HistorialTicketSequence", sequenceName = "HISTORIALTICKET_SEQ")
     private Integer idTicket;
     
     private String username;
     
     private String tipo;
     
-    private Date fechaInicio;
+    private Timestamp fechaInicio;
     
-    private Date fechaFinalizacion;
+    private Timestamp fechaFinalizacion;
     
     private String estadoFinal;
     
