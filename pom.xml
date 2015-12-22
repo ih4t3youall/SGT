@@ -47,6 +47,15 @@
 			<version>4.12</version>
 		</dependency>
 
+		<!-- Testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8.5</version>
+			<scope>test</scope>
+		</dependency>
+		
+
 		<!-- json -->
 
 		<dependency>
@@ -232,20 +241,6 @@
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 			<scope>runtime</scope>
-		</dependency>
-
-		<!-- Hibernate -->
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring-framework.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring-framework.version}</version>
 		</dependency>
 
 
