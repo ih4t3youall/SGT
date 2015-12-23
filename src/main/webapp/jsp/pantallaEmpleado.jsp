@@ -5,18 +5,18 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<script src="resources/jquery/jquery-1.11.3.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-1.11.3.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
-	href="resources/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+    href="${pageContext.request.contextPath}/css/bootstrap.min.css">
 
 <!-- Optional theme -->
 <link rel="stylesheet"
-	href="resources/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+    href="${pageContext.request.contextPath}/css/bootstrap-theme.min.css">
 
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="resources/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 
 <script type="text/javascript">

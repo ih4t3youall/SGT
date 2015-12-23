@@ -41,7 +41,8 @@
                         <li><a href="#">My Profile</a></li>
                     </ul>
                 </li>
-                <li><a href="<c:url value="j_spring_security_logout"/>"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+                <c:url value="/j_spring_security_logout" var="logoutUrl" />
+                <li><a href="${logoutUrl}"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
         </div>
     </div>
