@@ -41,6 +41,16 @@ public class ClienteController {
 		return mav;
 
 	}
+	
+	
+	@RequestMapping("tiles")
+    public ModelAndView tiles() {
+        log.trace("entered tiles");
+        ModelAndView mav = new ModelAndView("loggedLayout");
+        log.trace("finished seleccionarUsuario");
+        return mav;
+
+    }
 
 	@RequestMapping("usuarioCliente")
 	public ModelAndView usuarioCliente() {
@@ -56,7 +66,12 @@ public class ClienteController {
 	public ModelAndView verificarPin(PinDTO pinDTO) {
 		log.debug("entered verificarPin");
 		Cliente cliente = clienteService.getClienteByPin(pinDTO.getPin());
-
+		if (cliente==null){
+		    ModelAndView mav = new ModelAndView("ingresoCliente");
+	        mav.addObject("pinDTO", new PinDTO());
+	        mav.addObject("error", "El PIN es invalido");
+	        return mav;
+		}
 		ModelAndView mav = new ModelAndView("opciones");
 		Map<String, String> menuCliente = menuService.menuCliente();
 		mav.addObject("opciones", menuCliente);
@@ -122,7 +137,6 @@ public class ClienteController {
     public void setTicketService(ITicketService ticketService) {
         this.ticketService = ticketService;
     }
-	
 	
 
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="loggedLayout" template="/jsp/loggedLayout.jsp">
+        <put-attribute name="header" value="/jsp/loggedHeader.jsp" />
+        <put-attribute name="title" value="SGT" />
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="unanimousLayout" template="/jsp/unanimousLayout.jsp">
+        <put-attribute name="header" value="/jsp/unanimousHeader.jsp" />
+        <put-attribute name="title" value="SGT" />
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="menuEmpleado" extends="loggedLayout">
+        <put-attribute name="body" value="/jsp/menuEmpleado.jsp" />
+    </definition>
+    <definition name="pantallaEmpleado" extends="loggedLayout">
+        <put-attribute name="body" value="/jsp/pantallaEmpleado.jsp" />
+    </definition>
+    
+    <definition name="loginEmpleado" extends="unanimousLayout">
+        <put-attribute name="body" value="/jsp/loginEmpleado.jsp" />
+    </definition>
+    
+    <definition name="opciones" extends="unanimousLayout">
+        <put-attribute name="body" value="/jsp/opciones.jsp" />
+    </definition>
+    
+    <definition name="seleccionTipoCliente" extends="unanimousLayout">
+        <put-attribute name="body" value="/jsp/seleccionTipoCliente.jsp" />
+    </definition>
+    
+        <definition name="ingresoCliente" extends="unanimousLayout">
+        <put-attribute name="body" value="/jsp/ingresoCliente.jsp" />
+    </definition>
+    
+    
+    
+</tiles-definitions>

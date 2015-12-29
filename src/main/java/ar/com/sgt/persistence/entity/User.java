@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name="user_empleado")
+@Table(name="user_empl")
 @Data
 @SuppressWarnings("unused")
 public class User implements Serializable{  
@@ -22,6 +22,8 @@ public class User implements Serializable{
     private String username;
     
     private String password;
+    
+    private Boolean enabled;
     
 
 }

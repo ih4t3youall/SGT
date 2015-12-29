@@ -68,7 +68,7 @@ public class ClienteControllerTest {
 		
 		PinDTO pinDTO = new PinDTO();
 		pinDTO.setPin(1);
-		ModelAndView verificarPin = clienteController.verificarPin(pinDTO);
+        ModelAndView verificarPin = clienteController.verificarPin(pinDTO);
 		Cliente cliente = (Cliente)verificarPin.getModel().get("clienteDTO");
 		
 		assertEquals(cliente.getIdcliente(), new Integer(1));

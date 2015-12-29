@@ -31,9 +31,7 @@ public class EmpleadoController {
 
 	@RequestMapping("/loginEmpleado")
 	public ModelAndView loadPage() {
-
 		ModelAndView model = new ModelAndView("loginEmpleado");
-
 		return model;
 	}
 
@@ -46,7 +44,7 @@ public class EmpleadoController {
 		return model;
 	}
 
-	@RequestMapping("/welcome")
+	@RequestMapping("/empleado/welcome.htm")
 	public ModelAndView loadWelcomeEmpleado() {
 
 		ModelAndView model = new ModelAndView("menuEmpleado");
@@ -54,7 +52,7 @@ public class EmpleadoController {
 		return model;
 	}
 
-	@RequestMapping("/pantallaEmpleado.htm")
+	@RequestMapping("/empleado/pantallaEmpleado.htm")
 	public ModelAndView pantallaEmpelado() {
 		ModelAndView mav = new ModelAndView("pantallaEmpleado");
 		UserDTO empleadoDTO = userService.getUserDTO();
@@ -63,7 +61,7 @@ public class EmpleadoController {
 
 	}
 	
-	@RequestMapping("puestoLibre.htm")
+	@RequestMapping("/empleado/puestoLibre.htm")
 	public @ResponseBody String puestoLibre(String numeroPuesto){
 		ClienteDTO obtenerSiguienteCliente = queueService.obtenerSiguienteCliente(numeroPuesto);
 		Gson gson = new Gson();

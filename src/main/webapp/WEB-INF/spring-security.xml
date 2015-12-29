@@ -7,13 +7,13 @@
 
 	<http auto-config="true">
 	   <intercept-url pattern="/empleado/*" access="ROLE_USER,ROLE_ADMIN" />  
-		<intercept-url pattern="/*" access="ROLE_ANONYMOUS" />
+		<intercept-url pattern="/*" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN" />
 		
 		
 		<form-login login-page="/loginEmpleado.htm" default-target-url="/empleado/welcome.htm"
 			authentication-failure-url="/loginFailEmpleado.htm" 
 			/>
-		<logout logout-success-url="/" logout-url="/j_spring_security_logout" />
+        <logout logout-success-url="/" logout-url="/j_spring_security_logout" />
 	</http>
 
 	<authentication-manager>

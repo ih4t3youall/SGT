@@ -5,22 +5,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="resources/jquery/jquery-1.11.3.min.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="resources/bootstrap-3.3.5-dist/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet"
-	href="resources/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
-
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="resources/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#pin').val("");
@@ -49,20 +33,6 @@
 
 </head>
 <body>
-
-	<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Sistema de Gestion de turnos</a>
-			</div>
-		</div>
-		<!-- /container -->
-	</div>
 	<div class="container-fluid">
 		<form:form style="display: none;" method="post" name="pin"
 			id="ingresoPin" action="verificarPin.htm" modelAttribute="pinDTO">
@@ -70,7 +40,9 @@
 				<form:input type="text" path="pin" id="numeroPin" />
 			</div>
 		</form:form>
-
+            <c:if test="${not empty error}">
+                                    <div class="alert alert-danger fade in">PIN inválido</div>
+                                </c:if>
 		<div class="input-group input-group-lg">
 			<span id="sizing-addon1" class="input-group-addon">PIN</span> <input
 				type="text" id="pin" aria-describedby="sizing-addon1" placeholder=""
