@@ -22,6 +22,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource(value = { "classpath:application.properties" })
 public class HibernateConfiguration {
 
+	
+//	comment  configuracion de spring , notese que los metodos que devuelven datasource y txmanager , son considerados beans por lo tanto son inyectables
+	
     @Autowired
     private Environment environment;
 

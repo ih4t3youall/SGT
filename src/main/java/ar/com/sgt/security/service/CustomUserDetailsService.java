@@ -32,12 +32,16 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String ssoId)
 			throws UsernameNotFoundException {
+		
+//comment		busco el usuario 
 		User user = userService.findBySso(ssoId);
 		System.out.println("User : "+user);
 		if(user==null){
 			System.out.println("User not found");
 			throw new UsernameNotFoundException("Username not found");
 		}
+		
+//comment		busco sus permisos y se los asigno al usuario, esto deveria funcionar con el fetch de hibernate por algun motivo no anduvo y lo hice a mano
 		 List<UserProfile> findUserProfileByUserID = userProfileDAO.findUserProfileByUserID(user.getId());
 		 Set<UserProfile> profileSet = new HashSet<UserProfile>();
 		 
@@ -48,6 +52,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		}
 		 
 		user.setUserProfiles(profileSet);
+		// el status debe ser active, y los 3 true son para estos campos boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked
 		org.springframework.security.core.userdetails.User SUsuario = new org.springframework.security.core.userdetails.User(user.getSsoId(), user.getPassword(), 
 				 user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));
 		
@@ -62,6 +67,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		
 		for(UserProfile userProfile : user.getUserProfiles()){
 			System.out.println("UserProfile : "+userProfile);
+//comment			se le agrega el prefijo ROLE_ para que lo interprete spring security
 			authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType().trim()));
 		}
 		System.out.print("authorities :"+authorities);

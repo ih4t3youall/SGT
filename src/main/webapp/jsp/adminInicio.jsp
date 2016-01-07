@@ -10,5 +10,13 @@
 
 
 <h1> Admin inicio</h1>
+
+<p>Primero connect en este</p>
+<a href="pruebaWebsocket.htm" target="_blank">prueba websocket</a>
+<br/>
+<p> despues send request en este</p>
+<a href="broadcast.htm" target="_blank">enviar por websocket</a>
+
+
 </body>
 </html>

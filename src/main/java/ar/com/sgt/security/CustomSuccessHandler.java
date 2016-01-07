@@ -20,6 +20,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
  
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
  
+    
+//    comment aca se define hacia dodne van a ir los distintos usuarios dependiendo su role (despues de loguearse)
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
@@ -37,6 +39,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
      * This method extracts the roles of currently logged-in user and returns
      * appropriate URL according to his/her role.
      */
+    
+//    comment con el codigo se explica solo
     protected String determineTargetUrl(Authentication authentication) {
         String url = "";
  

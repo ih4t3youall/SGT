@@ -12,6 +12,9 @@
 		
 	</head>
 
+
+<!-- comment    este es un formulario de login modelo que funciona con spring security 4 por annotations      -->
+
 	<body>
 		<div id="mainWrapper">
 			<div class="login-container">

@@ -11,17 +11,19 @@
         function setConnected(connected) {
             document.getElementById('connect').disabled = connected;
             document.getElementById('disconnect').disabled = !connected;
-            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-            document.getElementById('response').innerHTML = '';
         }
 
         function connect() {
-            var socket = new SockJS('${pageContext.servletContext.contextPath}/hello');
+        	//conectamos con el servidor
+        	var socket = new SockJS('/sgt/ws');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function(greeting){
+                //nos subscribimos al canal deseado
+                //el segundo parametro podemos escribir la funcion de success o indicar el nombre de a que funcino debe ir en caso de un 200
+                //stompClient.subscribe('/topic/ws', funcionMia,funcionError); solo el nombre y definirla dentro de este jsp
+                stompClient.subscribe('/topic/ws', function(greeting){
                     showGreeting(JSON.parse(greeting.body).content);
                 });
             });
@@ -39,11 +41,7 @@
         }
 
         function showGreeting(message) {
-            var response = document.getElementById('response');
-            var p = document.createElement('p');
-            p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(message));
-            response.appendChild(p);
+            alert(message);
         }
     </script>
 </head>
@@ -54,11 +52,6 @@
     <div>
         <button id="connect" onclick="connect();">Connect</button>
         <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
-    <div id="conversationDiv">
-        <label>What is your name?</label><input type="text" id="name" />
-        <button id="sendName" onclick="sendName();">Send</button>
-        <p id="response"></p>
     </div>
 </div>
 </body>
