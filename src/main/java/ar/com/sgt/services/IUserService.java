@@ -1,9 +1,14 @@
 package ar.com.sgt.services;
 
-import ar.com.sgt.persistence.dto.UserDTO;
+import ar.com.sgt.security.model.User;
+import ar.com.sgt.security.model.UserProfile;
 
 public interface IUserService {
 
+	User findById(int id);
 	
-	   UserDTO getUserDTO();
+	User findBySso(String sso);
+	
+	UserProfile findUserProfileByUserId();
+	
 }

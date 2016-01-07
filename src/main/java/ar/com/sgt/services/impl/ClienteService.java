@@ -3,6 +3,9 @@
  */
 package ar.com.sgt.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import ar.com.sgt.persistence.dao.IClienteDao;
 import ar.com.sgt.persistence.entity.Cliente;
 import ar.com.sgt.services.IClienteService;
@@ -11,8 +14,11 @@ import ar.com.sgt.services.IClienteService;
  * @author mauro.damian.plaquin
  * 
  */
+@Repository("clienteService")
 public class ClienteService implements IClienteService {
 
+	
+	@Autowired
     private IClienteDao clienteDao;
 
     /*

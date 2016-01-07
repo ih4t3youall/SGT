@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.jms.Queue;
+
+import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.pdfbox.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +23,7 @@ import ar.com.sgt.persistence.dto.PinDTO;
 import ar.com.sgt.persistence.entity.Cliente;
 import ar.com.sgt.services.IClienteService;
 import ar.com.sgt.services.ITicketService;
+//import ar.com.sgt.services.impl.JmsMessageSender;
 import ar.com.sgt.services.impl.MenuService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,12 +31,15 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class ClienteController {
 
-
-	private MenuService menuService;
-
-	private IClienteService clienteService;
+//	@Autowired
+//	private JmsMessageSender jmsMessageSender;
 	
-	private ITicketService ticketService;
+	@Autowired
+	private MenuService menuService;
+	@Autowired
+	private IClienteService clienteService;
+//	@Autowired
+//	private ITicketService ticketService; clase comentada
 
 	@RequestMapping("seleccionarUsuario")
 	public ModelAndView seleccionarUsuario() {
@@ -95,17 +103,53 @@ public class ClienteController {
 	@RequestMapping(value="createTicket")
 	public ResponseEntity<byte[]> createTicket(@RequestParam("seleccion")String tipoTramite, @RequestParam("tipocliente")String tipoCliente) throws FileNotFoundException, IOException {
         log.debug("entered createTicket");
-        String path=ticketService.crearTicket(tipoCliente, tipoTramite);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/pdf"));
-        String filename = "ticket.pdf";
-        headers.setContentDispositionFormData(filename, filename);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        byte[] contents = IOUtils.toByteArray(new FileInputStream(path));
-        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
-        return response;
+//        String path=ticketService.crearTicket(tipoCliente, tipoTramite);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+//        String filename = "ticket.pdf";
+//        headers.setContentDispositionFormData(filename, filename);
+//        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+//        byte[] contents = IOUtils.toByteArray(new FileInputStream(path));
+//        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+//        return response;
+//        clases comentadas
+        return null;
 
     }
+	
+	@RequestMapping("/sendToJms")
+	public void sendToJms(){
+		
+		// send to default destination
+		
+//	    jmsMessageSender.send("hello JMS");
+	         
+	    // send to a code specified destination
+//	    Queue queue = new ActiveMQQueue("sgt");
+//	    jmsMessageSender.send(queue, "hello Another Message");
+		
+	}
+	
+	
+	
+	@RequestMapping("/pruebaWs.htm")
+	public ModelAndView nose1(){
+		
+		
+		ModelAndView mav = new ModelAndView("pruebaWebsocket");
+		
+		return mav;
+	}
+	
+	
+	
+	@RequestMapping("/readJms")
+	public void readJms(){
+		
+	    Queue queue = new ActiveMQQueue("sgt");
+	    
+		
+	}
 
 	public MenuService getMenuService() {
 		return menuService;
@@ -130,13 +174,13 @@ public class ClienteController {
 		this.clienteService = clienteService;
 	}
 
-    public ITicketService getTicketService() {
-        return ticketService;
-    }
-
-    public void setTicketService(ITicketService ticketService) {
-        this.ticketService = ticketService;
-    }
+//    public ITicketService getTicketService() { clase comentada
+//        return ticketService;
+//    }
+//
+//    public void setTicketService(ITicketService ticketService) {
+//        this.ticketService = ticketService;
+//    }
 	
 
 }

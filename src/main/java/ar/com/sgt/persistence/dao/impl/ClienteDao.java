@@ -5,8 +5,10 @@ package ar.com.sgt.persistence.dao.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.com.sgt.persistence.dao.AbstractDao;
 import ar.com.sgt.persistence.dao.IClienteDao;
 import ar.com.sgt.persistence.entity.Cliente;
 
@@ -14,7 +16,10 @@ import ar.com.sgt.persistence.entity.Cliente;
  * @author mauro.damian.plaquin
  * 
  */
-public class ClienteDao extends GenericJpaDao<Cliente, Integer> implements
+
+//public class ClienteDao extends AbstractDao<Integer, User> implements UserDao{
+@Repository("clienteDao")
+public class ClienteDao extends AbstractDao<Cliente, Integer> implements
 	IClienteDao {
 
     /*

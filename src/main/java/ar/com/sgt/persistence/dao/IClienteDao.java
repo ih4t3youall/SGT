@@ -9,7 +9,7 @@ import ar.com.sgt.persistence.entity.Cliente;
  * @author mauro.damian.plaquin
  * 
  */
-public interface IClienteDao extends IGenericJpaDao<Cliente, Integer> {
+public interface IClienteDao  {
 
     /**
      * @param pin

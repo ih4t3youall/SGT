@@ -1,33 +1,34 @@
 package ar.com.sgt.services.impl;
 
-import ar.com.sgt.persistence.dto.ClienteDTO;
-import ar.com.sgt.persistence.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import ar.com.sgt.persistence.dao.IUserDao;
+import ar.com.sgt.security.model.User;
+import ar.com.sgt.security.model.UserProfile;
 import ar.com.sgt.services.IUserService;
 
-public class UserService implements IUserService {
+@Service
+@Transactional
+public class UserService implements IUserService{
 
-	public ClienteDTO getUserByPin(int pin) {
+	@Autowired
+	private IUserDao dao;
 
-		// es un mock
-		ClienteDTO clienteDTO = new ClienteDTO();
-		clienteDTO.setApellido("un apellido");
-		clienteDTO.setNombre("unNombre");
-		clienteDTO.setCbu("01937410284713987129");
-		clienteDTO.setId_usuario(20);
-		clienteDTO.setPin(pin);
+	public User findById(int id) {
+		return dao.findById(id);
+	}
 
-		return clienteDTO;
+	public User findBySso(String sso) {
+		return dao.findBySSO(sso);
 	}
 
 	@Override
-	public UserDTO getUserDTO() {
-		
-		UserDTO userDTO = new UserDTO();
-		userDTO.setIdUser(1);
-		userDTO.setApellido("apellido");
-		userDTO.setNombre("nombre");
-		userDTO.setPassword("password");
-		
-		return userDTO;
+	public UserProfile findUserProfileByUserId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
 }

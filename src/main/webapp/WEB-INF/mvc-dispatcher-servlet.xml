@@ -1,98 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:batch="http://www.springframework.org/schema/batch"
     xmlns:task="http://www.springframework.org/schema/task" 
-	xsi:schemaLocation="
- http://www.springframework.org/schema/beans
- http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-  http://www.springframework.org/schema/batch
- http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
- http://www.springframework.org/schema/task
-        http://www.springframework.org/schema/task/spring-task-3.2.xsd
- http://www.springframework.org/schema/context
- http://www.springframework.org/schema/context/spring-context-4.0.xsd
- http://www.springframework.org/schema/tx 
-http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+  		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+  		http://www.springframework.org/schema/websocket
+		http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd
+		http://www.springframework.org/schema/beans
+ 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+  		http://www.springframework.org/schema/batch
+ 		http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+ 		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.2.xsd
+ 		http://www.springframework.org/schema/context
+ 	    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+ 		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		">
+
 	<context:property-placeholder
 		location="classpath:properties/DEV-rs-persistence.properties"
 		ignore-unresolvable="true" />
 	<context:annotation-config />
-	<context:component-scan base-package="ar.com.sgt.controllers" />
-
+	<context:component-scan base-package="ar.com.sgt" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+ <mvc:annotation-driven/>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
-	
-	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="0">
-        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
-    </bean>
 
-	<!-- Entity Manager Declaration JPA compliance -->
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<!-- <property name="persistenceXmlLocation" value="classpath:config/persistence.xml" 
-			/> -->
-		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="ar.com.sgt.persistence.entity*" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="${hibernate.show_sql}" />
-				<property name="databasePlatform" value="${hibernate.dialect}" />
-			</bean>
-		</property>
-		<property name="jpaProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-				<prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
-				<prop key="hibernate.check_nullability">${hibernate.check_nullability}</prop>
-				<prop key="org.hibernate.flushMode">COMMIT</prop>
-			</props>
-		</property>
+<websocket:message-broker application-destination-prefix="/app">
+    <websocket:stomp-endpoint path="/ws">
+      <websocket:sockjs/>
+    </websocket:stomp-endpoint>
+    <websocket:simple-broker prefix="/topic,/ticket"/>
+    
+  </websocket:message-broker>
+
+
+
+	<!-- JMS -->
+	<!-- =============================================== -->
+	<!-- JMS Common, Define JMS connectionFactory -->
+	<!-- =============================================== -->
+	<!-- Activemq connection factory -->
+	<bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<!-- brokerURL, You may have different IP or port -->
+		<constructor-arg index="0" value="tcp://localhost:61616" />
 	</bean>
 
+	<!-- ============================================================= -->
+	<!-- JMS receive. -->
+	<!-- Define MessageListenerAdapter and MessageListenerContainer -->
+	<!-- ============================================================= -->
+	<bean id="messageListenerAdapter"
+		class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg ref="jmsMessageListener" />
+	</bean>
+
+	<bean id="messageListenerContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destinationName" value="sgt" />
+		<property name="messageListener" ref="messageListenerAdapter" />
+	</bean>
+
+
+	<!-- Pooled Spring connection factory -->
+	<bean id="connectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<constructor-arg ref="amqConnectionFactory" />
+	</bean>
+
+	<!-- ======================================================= -->
+	<!-- JMS Send, define default destination and JmsTemplate -->
+	<!-- ======================================================= -->
+	<!-- Default Destination Queue Definition -->
+	<bean id="defaultDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- name of the queue -->
+		<constructor-arg index="0" value="sgt" />
+	</bean>
+
+	<!-- JmsTemplate Definition -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestination" ref="defaultDestination" />
+	</bean>
+	<!-- FIN JMS -->
+
+
+
+
+
+
+	<!-- Entity Manager Declaration JPA compliance -->
+<!-- 	<bean id="entityManagerFactory" -->
+<!-- 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"> -->
+<!-- 		<property name="dataSource" ref="dataSource" /> -->
+<!-- 		<property name="packagesToScan" value="ar.com.sgt*" /> -->
+<!-- 		<property name="jpaVendorAdapter"> -->
+<!-- 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"> -->
+<!-- 				<property name="showSql" value="${hibernate.show_sql}" /> -->
+<!-- 				<property name="databasePlatform" value="${hibernate.dialect}" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 		<property name="jpaProperties"> -->
+<!-- 			<props> -->
+<!-- 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> -->
+<!-- 				<prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop> -->
+<!-- 				<prop key="hibernate.check_nullability">${hibernate.check_nullability}</prop> -->
+<!-- 				<prop key="org.hibernate.flushMode">COMMIT</prop> -->
+<!-- 			</props> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
 	<!-- The driver managed way -->
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:driverClassName="${dataSource.driver}" p:url="${dataSource.url}"
-		p:username="${dataSource.user}" p:password="${dataSource.password}" />
+<!-- 	<bean id="dataSource" -->
+<!-- 		class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
+<!-- 		p:driverClassName="${dataSource.driver}" p:url="${dataSource.url}" -->
+<!-- 		p:username="${dataSource.user}" p:password="${dataSource.password}" /> -->
 	<!-- END The driver managed way -->
 
 	<!-- JPA TX configuration -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
+<!-- 	<tx:annotation-driven transaction-manager="transactionManager" /> -->
+<!-- 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> -->
+<!-- 		<property name="entityManagerFactory" ref="entityManagerFactory" /> -->
+<!-- 	</bean> -->
 	<!-- JPA TX configuration -->
 
 	<!-- END Data Source Declaration -->
 
 	<tx:annotation-driven />
 
-	<bean id="clienteController" name="clienteController"
-		class="ar.com.sgt.controllers.ClienteController">
-		<property name="menuService" ref="menuService" />
-		<property name="clienteService" ref="clienteService" />
-		<property name="ticketService" ref="ticketService" />
-	</bean>
-	<bean id="menuService" class="ar.com.sgt.services.impl.MenuService">
-	</bean>
+<!-- 	<bean id="clienteController" name="clienteController" -->
+<!-- 		class="ar.com.sgt.controllers.ClienteController"> -->
+<!-- 		<property name="menuService" ref="menuService" /> -->
+<!-- 		<property name="clienteService" ref="clienteService" /> -->
+<!-- 		<property name="ticketService" ref="ticketService" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="menuService" class="ar.com.sgt.services.impl.MenuService"> -->
+<!-- 	</bean> -->
 	<!-- HELPERS -->
-	<bean id="systemHelper" class="ar.com.sgt.services.impl.SystemHelper">
-	</bean>
+<!-- 	<bean id="systemHelper" class="ar.com.sgt.services.impl.SystemHelper"> -->
+<!-- 	</bean> -->
 	<!-- SERVICE's -->
-	<bean id="clienteService" class="ar.com.sgt.services.impl.ClienteService">
-		<property name="clienteDao" ref="clienteDao"></property>
-	</bean>
+<!-- 	<bean id="clienteService" class="ar.com.sgt.services.impl.ClienteService"> -->
+<!-- 		<property name="clienteDao" ref="clienteDao"></property> -->
+<!-- 	</bean> -->
 
-	<bean id="ticketService" class="ar.com.sgt.services.impl.TicketService">
-		<property name="systemHelper" ref="systemHelper"></property>
-		<property name="ticketDao" ref="ticketDao"></property>
-		<property name="pathTemplate" value="${pdf.location}"></property>
-	</bean>
+<!-- 	<bean id="ticketService" class="ar.com.sgt.services.impl.TicketService"> no pasada a anootation TODO to fix -->
+<!-- 		<property name="systemHelper" ref="systemHelper"></property> -->
+<!-- 		<property name="ticketDao" ref="ticketDao"></property> -->
+<!-- 		<property name="pathTemplate" value="${pdf.location}"></property> -->
+<!-- 	</bean> -->
 
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
@@ -103,88 +173,88 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
         </property>
     </bean>   
 
-	<bean id="empleadoController" class="ar.com.sgt.controllers.EmpleadoController">
-		<property name="userService" ref="userService"></property>
-		<property name="queueService" ref="queueService"></property>
-	</bean>
+<!-- 	<bean id="empleadoController" class="ar.com.sgt.controllers.EmpleadoController"> -->
+<!-- 		<property name="userService" ref="userService"></property> -->
+<!-- 		<property name="queueService" ref="queueService"></property> -->
+<!-- 	</bean> -->
 	
-	<bean id="queueService" class="ar.com.sgt.services.impl.QueueService">
+<!-- 	<bean id="queueService" class="ar.com.sgt.services.impl.QueueService"> -->
 	
-	</bean>
+<!-- 	</bean> -->
 	
-	<bean id="userService" class="ar.com.sgt.services.impl.UserService">
-	</bean>
-	<!-- DAO'S -->
+<!-- 	<bean id="userService" class="ar.com.sgt.services.impl.UserService"> -->
+<!-- 	</bean> -->
+<!-- 	DAO'S -->
 
-	<bean id="clienteDao" class="ar.com.sgt.persistence.dao.impl.ClienteDao">
+<!-- 	<bean id="clienteDao" class="ar.com.sgt.persistence.dao.impl.ClienteDao"> -->
 
-	</bean>
+<!-- 	</bean> -->
 
 	<bean id="ticketDao" class="ar.com.sgt.persistence.dao.impl.TicketDao">
 
 	</bean>
 	
 	
-	   <bean id="historialTicketDao" class="ar.com.sgt.persistence.dao.impl.HistorialTicketDao">
+<!-- 	   <bean id="historialTicketDao" class="ar.com.sgt.persistence.dao.impl.HistorialTicketDao"> -->
 
-    </bean>
+<!--     </bean> -->
 
 
   <!-- Run once per day -->
-  <task:scheduled-tasks>
-      <task:scheduled ref="runScheduler" method="run" fixed-delay="86400000" /> 
-  </task:scheduled-tasks>
+<!--   <task:scheduled-tasks> -->
+<!--       <task:scheduled ref="runScheduler" method="run" fixed-delay="86400000" />  -->
+<!--   </task:scheduled-tasks> -->
   
-      <bean id="runScheduler" class="ar.com.sgt.batch.scheduler.HistorialTicketScheduler" >
-        <property name="job" ref="ticketHistoryJob" />
-       <property name="jobLauncher" ref="jobLauncher" /> 
-       </bean>
+<!--       <bean id="runScheduler" class="ar.com.sgt.batch.scheduler.HistorialTicketScheduler" > -->
+<!--         <property name="job" ref="ticketHistoryJob" /> -->
+<!--        <property name="jobLauncher" ref="jobLauncher" />  -->
+<!--        </bean> -->
     
     
-    <bean id="jobRepository"
-        class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="databaseType" value="oracle" />
-        <property name="isolationLevelForCreate" value="ISOLATION_DEFAULT"/>
-    </bean>
+<!--     <bean id="jobRepository" -->
+<!--         class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean"> -->
+<!--         <property name="dataSource" ref="dataSource" /> -->
+<!--         <property name="transactionManager" ref="transactionManager" /> -->
+<!--         <property name="databaseType" value="oracle" /> -->
+<!--         <property name="isolationLevelForCreate" value="ISOLATION_DEFAULT"/> -->
+<!--     </bean> -->
 
-    <bean id="jobLauncher"
-        class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
-        <property name="jobRepository" ref="jobRepository" />
-    </bean>
+<!--     <bean id="jobLauncher" -->
+<!--         class="org.springframework.batch.core.launch.support.SimpleJobLauncher"> -->
+<!--         <property name="jobRepository" ref="jobRepository" /> -->
+<!--     </bean> -->
 
 
-    <batch:job id="ticketHistoryJob">
-        <batch:step id="step1" next="step2">
-            <batch:tasklet>
-                <batch:chunk reader="ticketHibernateItemReader" writer="historialTicketHibernateWriter"
-                    processor="historialTicketHibernateProcessor" commit-interval="10">
-                </batch:chunk>
-            </batch:tasklet>
-        </batch:step>
-        <batch:step id="step2">
-            <batch:tasklet>
-                <batch:chunk reader="ticketHibernateItemReader" writer="ticketRemoveHibernateWriter" commit-interval="10">
-                </batch:chunk>
-            </batch:tasklet>
-        </batch:step>
-    </batch:job>
+<!--     <batch:job id="ticketHistoryJob"> -->
+<!--         <batch:step id="step1" next="step2"> -->
+<!--             <batch:tasklet> -->
+<!--                 <batch:chunk reader="ticketHibernateItemReader" writer="historialTicketHibernateWriter" -->
+<!--                     processor="historialTicketHibernateProcessor" commit-interval="10"> -->
+<!--                 </batch:chunk> -->
+<!--             </batch:tasklet> -->
+<!--         </batch:step> -->
+<!--         <batch:step id="step2"> -->
+<!--             <batch:tasklet> -->
+<!--                 <batch:chunk reader="ticketHibernateItemReader" writer="ticketRemoveHibernateWriter" commit-interval="10"> -->
+<!--                 </batch:chunk> -->
+<!--             </batch:tasklet> -->
+<!--         </batch:step> -->
+<!--     </batch:job> -->
 
-    <bean id="ticketHibernateItemReader"
-        class="org.springframework.batch.item.database.JpaPagingItemReader">
-        <property name="entityManagerFactory" ref="entityManagerFactory" />
-        <property name="queryString" value="from Ticket" />
-    </bean>
+<!--     <bean id="ticketHibernateItemReader" -->
+<!--         class="org.springframework.batch.item.database.JpaPagingItemReader"> -->
+<!--         <property name="entityManagerFactory" ref="entityManagerFactory" /> -->
+<!--         <property name="queryString" value="from Ticket" /> -->
+<!--     </bean> -->
 
-    <bean id="historialTicketHibernateProcessor" class="ar.com.sgt.batch.processor.HistorialTicketProcessor" />
+<!--     <bean id="historialTicketHibernateProcessor" class="ar.com.sgt.batch.processor.HistorialTicketProcessor" />  beneado --> 
 
-    <bean id="historialTicketHibernateWriter" class="ar.com.sgt.batch.writer.HistorialTicketWriter">
-        <property name="dao" ref="historialTicketDao" />
-    </bean>
+<!--     <bean id="historialTicketHibernateWriter" class="ar.com.sgt.batch.writer.HistorialTicketWriter"> -->
+<!--         <property name="dao" ref="historialTicketDao" /> -->
+<!--     </bean> -->
     
-     <bean id="ticketRemoveHibernateWriter" class="ar.com.sgt.batch.writer.TicketRemoveWriter">
-        <property name="dao" ref="ticketDao" />
-    </bean>
+<!--      <bean id="ticketRemoveHibernateWriter" class="ar.com.sgt.batch.writer.TicketRemoveWriter"> -->
+<!--         <property name="dao" ref="ticketDao" /> -->
+<!--     </bean> fin beneado -->
 
 </beans>

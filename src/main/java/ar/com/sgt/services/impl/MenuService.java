@@ -3,6 +3,8 @@ package ar.com.sgt.services.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+@Service
 public class MenuService {
 
 	public Map<String, String> menuCliente() {

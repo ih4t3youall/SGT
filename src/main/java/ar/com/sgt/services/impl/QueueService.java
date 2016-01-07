@@ -1,8 +1,12 @@
 package ar.com.sgt.services.impl;
 
+import org.springframework.stereotype.Service;
+
 import ar.com.sgt.persistence.dto.ClienteDTO;
 import ar.com.sgt.services.IQueueService;
 
+
+@Service
 public class QueueService implements IQueueService{
 
 	@Override
